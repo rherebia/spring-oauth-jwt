@@ -1,11 +1,12 @@
 package br.com.rbh.authserver.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.jwt.crypto.sign.MacSigner;
-import org.springframework.security.jwt.crypto.sign.RsaVerifier;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
@@ -21,6 +22,9 @@ public class CustomAuthorizationServerConfigurer extends AuthorizationServerConf
 	
 	@Autowired
     private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private DataSource dataSource;
 	
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
@@ -60,17 +64,7 @@ public class CustomAuthorizationServerConfigurer extends AuthorizationServerConf
 	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		clients.inMemory()
-	        .withClient("bse")
-	            .authorizedGrantTypes("password", "client_credentials", "authorization_code", "refresh_token", "implicit")
-	            .secret("123")
-	            .scopes("LISTAR_PUBLICACOES")
-	            .accessTokenValiditySeconds(300)
-	            .autoApprove(true).and()
-	        .withClient("client-refresh-token")
-	        	.authorizedGrantTypes("password", "authorization_code", "refresh_token")
-	        	.secret("123")
-	        	.scopes("read");
+		clients.jdbc(dataSource);
 	}
 	
 }
