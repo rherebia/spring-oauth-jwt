@@ -80,6 +80,8 @@ public class OAuthFlowTests {
 	// TODO criar cenario para implicit
 	//@Test
 	public void testImplicitGrantTypeFlow() throws Exception {
+		// get https://localhost:8083/oauth/authorize?response_type=token&client_id=bse&redirect_uri=https://localhost:8083/token-handler
+		
 		Response response = given().
 			relaxedHTTPSValidation().
 			param("reponse_type", "token").
@@ -101,6 +103,8 @@ public class OAuthFlowTests {
 	// TODO criar o cenario para authorization code
 	//@Test
 	public void testAuthorizationCodeGrantTypeFlow() throws Exception {
+		// get https://localhost:8083/oauth/authorize?response_type=code&client_id=bse&redirect_uri=https://localhost:8083/token-handler
+		
 		Response response = given().
 			relaxedHTTPSValidation().
 			param("response_type", "code").
