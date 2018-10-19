@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import br.com.rbh.authserver.model.Usuario;
 import br.com.rbh.authserver.repository.UsuarioRepository;
 
-@Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+@Service("jpa")
+public class JPAUserDetailsService implements UserDetailsService {
 	
 	@Autowired
 	private UsuarioRepository usuarioRepository;

@@ -13,6 +13,6 @@ create table oauth_client_details (
 );
 
 INSERT INTO OAUTH_CLIENT_DETAILS
-	(CLIENT_ID, CLIENT_SECRET, SCOPE, AUTHORIZED_GRANT_TYPES, ACCESS_TOKEN_VALIDITY)
+	(CLIENT_ID, CLIENT_SECRET, SCOPE, AUTHORIZED_GRANT_TYPES, ACCESS_TOKEN_VALIDITY, WEB_SERVER_REDIRECT_URI, AUTOAPPROVE)
  VALUES 
- 	('bse', '123', 'LISTAR_PUBLICACOES', 'password,authorization_code,refresh_token,implicit,client_credentials', 300);
+ 	('bse', '123', 'LISTAR_PUBLICACOES', 'password,authorization_code,refresh_token,implicit,client_credentials', 300, 'https://localhost:8083/token-handler', 'true');

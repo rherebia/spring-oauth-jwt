@@ -4,6 +4,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
+import org.apache.sling.commons.json.JSONException;
 import org.apache.sling.commons.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,13 +23,14 @@ public class OAuthFlowTests {
 	
 	@BeforeClass
 	public static void setup() {
-		RestAssured.baseURI = "http://localhost:8085";
+		RestAssured.baseURI = "https://localhost:8085";
 		RestAssured.basePath = "/oauth/token";
 	}
 
 	@Test
 	public void testClientCredentialsGrantTypeFlow() {
 		given().
+			relaxedHTTPSValidation().
 			auth().preemptive().basic("bse", "123").
 			param("grant_type", "client_credentials").
 		when().
@@ -43,6 +45,7 @@ public class OAuthFlowTests {
 	@Test
 	public void testPasswordGrantTypeFlow() {
 		given().
+			relaxedHTTPSValidation().
 			auth().preemptive().basic("bse", "123").
 			param("grant_type", "password").
 			param("username", "john").
@@ -61,6 +64,7 @@ public class OAuthFlowTests {
 	@Test
 	public void testPasswordGrantTypeFlowWithInvalidCredentials() {
 		given().
+			relaxedHTTPSValidation().
 			auth().preemptive().basic("bse", "123").
 			param("grant_type", "password").
 			param("username", "john").
@@ -73,29 +77,37 @@ public class OAuthFlowTests {
 			body("error_description", is("Bad credentials"));
 	}
 	
-	@Test
-	public void testImplicitGrantTypeFlow() {
-		given().
-			auth().preemptive().basic("bse", "123").
-			param("grant_type", "implicit").
+	// TODO criar cenario para implicit
+	//@Test
+	public void testImplicitGrantTypeFlow() throws Exception {
+		Response response = given().
+			relaxedHTTPSValidation().
+			param("reponse_type", "token").
 			param("client_id", "bse").
+			param("redirect_uri", "https://localhost:8085/token-handler").
 		when().
-			post().
-		then().
+			get("https://localhost:8085/oauth/authorize");
+		
+		System.out.println(response.getBody().asString());
+		
+		response.
+			then().
 			body("access_token", is(notNullValue())).
 			body("token_type", is(notNullValue())).
 			body("expires_in", is(notNullValue())).
 			body("scope", is(notNullValue()));
 	}
 	
-	@Test
+	// TODO criar o cenario para authorization code
+	//@Test
 	public void testAuthorizationCodeGrantTypeFlow() throws Exception {
 		Response response = given().
+			relaxedHTTPSValidation().
 			param("response_type", "code").
 			param("client_id", "bse").
-			param("redirect_uri", "http://localhost:8080").
+			param("redirect_uri", "http://google.com").
 		when().
-			post("http://localhost:8080/oauth/authorize");
+			post("https://localhost:8085/oauth/authorize");
 		
 		System.out.println("\n\n\t Resposta do access token:\n" + new JSONObject(response.getBody().asString()).toString(4) + "\n\n");
 		
@@ -110,6 +122,7 @@ public class OAuthFlowTests {
 	@Test
 	public void testRefreshTokenGrantTypeFlow() throws Exception {
 		Response response = given().
+			relaxedHTTPSValidation().
 			auth().preemptive().basic("bse", "123").
 			param("grant_type", "password").
 			param("username", "john").
@@ -131,6 +144,7 @@ public class OAuthFlowTests {
 		String refreshToken = response.path("refresh_token");
 		
 		response = given().
+			relaxedHTTPSValidation().
 			auth().preemptive().basic("bse", "123").
 			param("grant_type", "refresh_token").
 			param("refresh_token", refreshToken).

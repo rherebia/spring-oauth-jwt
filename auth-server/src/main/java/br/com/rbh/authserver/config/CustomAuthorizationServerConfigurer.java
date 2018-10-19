@@ -3,6 +3,7 @@ package br.com.rbh.authserver.config;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +26,7 @@ public class CustomAuthorizationServerConfigurer extends AuthorizationServerConf
     private AuthenticationManager authenticationManager;
 	
 	@Autowired
+	@Qualifier("jpa")
 	private UserDetailsService userDetailsService;
 	
 	@Autowired
