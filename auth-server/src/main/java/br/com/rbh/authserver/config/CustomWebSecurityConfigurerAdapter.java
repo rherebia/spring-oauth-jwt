@@ -41,14 +41,18 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
 	@Override
     protected void configure(final HttpSecurity http) throws Exception {
         // @formatter:off
-		http.authorizeRequests()
-	        	.antMatchers("/login", "/token-handler**", "/oauth**").permitAll()
+		http
+			.httpBasic().disable()
+			.authorizeRequests()
+	        	.antMatchers("/login", "/token-handler/**", "/oauth/**", "/js/**", "/css/**", "/img/**").permitAll()
 	        .and()
 		        .authorizeRequests()
 		        .anyRequest()
 		        .authenticated()
 	        .and()
-	        	.formLogin().permitAll();
+	        	.formLogin()
+	        	.loginPage("/login")
+	        	.permitAll();
 		// @formatter:on
     }
 }

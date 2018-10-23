@@ -9,8 +9,10 @@ import org.apache.sling.commons.json.JSONObject;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import io.restassured.RestAssured;
@@ -18,12 +20,12 @@ import io.restassured.response.Response;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT, 
-	properties = { "server.port=8085" })
+	properties = { "server.port=8083" })
 public class OAuthFlowTests {
 	
 	@BeforeClass
 	public static void setup() {
-		RestAssured.baseURI = "https://localhost:8085";
+		RestAssured.baseURI = "https://localhost:8083";
 		RestAssured.basePath = "/oauth/token";
 	}
 
@@ -78,7 +80,7 @@ public class OAuthFlowTests {
 	}
 	
 	// TODO criar cenario para implicit
-	//@Test
+	@Test
 	public void testImplicitGrantTypeFlow() throws Exception {
 		// get https://localhost:8083/oauth/authorize?response_type=token&client_id=bse&redirect_uri=https://localhost:8083/token-handler
 		
@@ -86,9 +88,9 @@ public class OAuthFlowTests {
 			relaxedHTTPSValidation().
 			param("reponse_type", "token").
 			param("client_id", "bse").
-			param("redirect_uri", "https://localhost:8085/token-handler").
+			param("redirect_uri", "https://localhost:8083/token-handler").
 		when().
-			get("https://localhost:8085/oauth/authorize");
+			get("https://localhost:8083/oauth/authorize");
 		
 		System.out.println(response.getBody().asString());
 		
@@ -101,7 +103,7 @@ public class OAuthFlowTests {
 	}
 	
 	// TODO criar o cenario para authorization code
-	//@Test
+	@Test
 	public void testAuthorizationCodeGrantTypeFlow() throws Exception {
 		// get https://localhost:8083/oauth/authorize?response_type=code&client_id=bse&redirect_uri=https://localhost:8083/token-handler
 		
@@ -109,11 +111,11 @@ public class OAuthFlowTests {
 			relaxedHTTPSValidation().
 			param("response_type", "code").
 			param("client_id", "bse").
-			param("redirect_uri", "http://google.com").
+			param("redirect_uri", "https://localhost:8083/token-handler").
 		when().
-			post("https://localhost:8085/oauth/authorize");
+			get("https://localhost:8083/oauth/authorize");
 		
-		System.out.println("\n\n\t Resposta do access token:\n" + new JSONObject(response.getBody().asString()).toString(4) + "\n\n");
+		System.out.println(response.getBody().asString());
 		
 		response.
 			then().
