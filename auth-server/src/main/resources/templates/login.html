@@ -27,7 +27,7 @@
 		      <input type="text" id="login" class="fadeIn second" name="username" placeholder="Passaporte">
 		      <input type="text" id="password" class="fadeIn third" name="password" placeholder="Senha">
 		      <input type="submit" class="fadeIn fourth" value="Log In">
-		      <input name="_csrf" type="hidden" th:value="${_csrf.token}" />
+		      <input id="csrf" name="_csrf" type="hidden" th:value="${_csrf.token}" />
 		    </form>
 		  </div>
 		</div>
