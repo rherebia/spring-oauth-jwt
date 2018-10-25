@@ -1,7 +1,6 @@
 package br.com.rbh.authserver.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	@Qualifier("rest")
 	private AuthenticationProvider authenticationProvider;
 	
 	@Bean

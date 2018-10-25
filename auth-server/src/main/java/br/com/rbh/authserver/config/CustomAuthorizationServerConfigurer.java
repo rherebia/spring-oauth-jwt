@@ -5,7 +5,6 @@ import java.util.Arrays;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -25,7 +24,6 @@ import org.springframework.stereotype.Component;
 public class CustomAuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
 	
 	@Autowired
-	@Qualifier("rest")
 	private AuthenticationProvider authenticationProvider;
 	
 	@Autowired

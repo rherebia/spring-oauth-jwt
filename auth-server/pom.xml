@@ -108,11 +108,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<jvmArguments>
-						 -Djavax.net.ssl.trustStore=/home/rherebia/development/projects/spring-oauth-jwt/auth-server/src/main/resources/truststore.jks -Djavax.net.ssl.trustStorePassword=changeit
-					</jvmArguments>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

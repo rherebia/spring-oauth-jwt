@@ -1,0 +1,25 @@
+server:
+  port: 8083
+  ssl: 
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:keystore.jks
+    key-store-password: changeit
+    key-alias: auth-server
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:db
+    username: sa
+    password: 123
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
