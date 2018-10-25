@@ -1,7 +1,6 @@
 package br.com.rbh.authserver.config.security;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.StringWriter;
 import java.net.URI;
 import java.nio.charset.Charset;
@@ -22,6 +21,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
+
+import br.com.rbh.authserver.dto.DefaultResponse;
+import br.com.rbh.authserver.dto.LoginRequest;
 
 @Component("rest")
 public class RestAuthenticationProvider implements AuthenticationProvider {
@@ -73,47 +75,6 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
 	@Override
 	public boolean supports(Class<?> authentication) {
 		return authentication.equals(UsernamePasswordAuthenticationToken.class);
-	}
-	
-	static class DefaultResponse {
-		private String msg;
-
-		public String getMsg() {
-			return msg;
-		}
-
-		public void setMsg(String msg) {
-			this.msg = msg;
-		} 
-	}
-
-	class LoginRequest implements Serializable {
-		private static final long serialVersionUID = 1L;
-		
-		private String login;
-		private String senha;
-		
-		LoginRequest(String login, String senha) {
-			this.login = login;
-			this.senha = senha;
-		}
-
-		public String getLogin() {
-			return login;
-		}
-
-		public void setLogin(String login) {
-			this.login = login;
-		}
-
-		public String getSenha() {
-			return senha;
-		}
-
-		public void setSenha(String senha) {
-			this.senha = senha;
-		}
-			
 	}
 
 }
