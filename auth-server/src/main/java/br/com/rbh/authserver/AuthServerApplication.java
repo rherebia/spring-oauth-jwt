@@ -9,6 +9,10 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 public class AuthServerApplication {
 
 	public static void main(String[] args) {
+		System.setProperty("javax.net.ssl.trustStore", AuthServerApplication.class.getResource("/truststore.jks").getPath());
+        System.setProperty("javax.net.ssl.trustStorePassword", "changeit");
+		
 		SpringApplication.run(AuthServerApplication.class, args);
 	}
+	
 }
