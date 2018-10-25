@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import br.com.rbh.authserver.model.Usuario;
 import br.com.rbh.authserver.repository.UsuarioRepository;
 
-@Component
+@Component("jpa")
 public class JPAAuthenticationProvider implements AuthenticationProvider {
 	
 	@Autowired
