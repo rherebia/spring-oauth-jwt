@@ -1,13 +1,14 @@
 package br.com.rbh.authserver.config;
 
+import java.util.Arrays;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.jwt.crypto.sign.MacSigner;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -23,11 +24,7 @@ import org.springframework.stereotype.Component;
 public class CustomAuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
 	
 	@Autowired
-    private AuthenticationManager authenticationManager;
-	
-	@Autowired
-	@Qualifier("jpa")
-	private UserDetailsService userDetailsService;
+	private AuthenticationProvider authenticationProvider;
 	
 	@Autowired
 	private DataSource dataSource;
@@ -36,8 +33,7 @@ public class CustomAuthorizationServerConfigurer extends AuthorizationServerConf
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints.tokenStore(tokenStore())
         	.accessTokenConverter(accessTokenConverter())
-        	.authenticationManager(authenticationManager)
-        	.userDetailsService(userDetailsService);
+        	.authenticationManager(new ProviderManager(Arrays.asList(authenticationProvider)));
 	}
 	
 	@Override

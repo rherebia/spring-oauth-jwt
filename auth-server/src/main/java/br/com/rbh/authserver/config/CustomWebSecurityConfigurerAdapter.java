@@ -1,50 +1,49 @@
 package br.com.rbh.authserver.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @EnableWebSecurity
 public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	@Qualifier("jpa")
-	private UserDetailsService userDetailsService;
+	private AuthenticationProvider authenticationProvider;
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return NoOpPasswordEncoder.getInstance();
+		// no op password encoder
+		return new PasswordEncoder() {
+			
+			@Override
+			public boolean matches(CharSequence rawPassword, String encodedPassword) {
+				return true;
+			}
+			
+			@Override
+			public String encode(CharSequence rawPassword) {
+				return rawPassword.toString();
+			}
+		};
 	}
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		// @formatter:off
-		auth
-			.userDetailsService(userDetailsService)
-			.passwordEncoder(passwordEncoder());
-    }// @formatter:on
+		auth.authenticationProvider(authenticationProvider);
+	}
 	
 	@Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManager();
-    }
-		
-	@Override
     protected void configure(final HttpSecurity http) throws Exception {
-        // @formatter:off
 		http
 			.httpBasic().disable()
 			.authorizeRequests()
-	        	.antMatchers("/login", "/token-handler/**", "/oauth/**", "/js/**", "/css/**", "/img/**").permitAll()
+	        	.antMatchers("/login", "/token-handler/**", "/oauth/**", "/js/**", "/css/**", "/img/**")
+	        	.permitAll()
 	        .and()
 		        .authorizeRequests()
 		        .anyRequest()
@@ -53,6 +52,5 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
 	        	.formLogin()
 	        	.loginPage("/login")
 	        	.permitAll();
-		// @formatter:on
     }
 }
