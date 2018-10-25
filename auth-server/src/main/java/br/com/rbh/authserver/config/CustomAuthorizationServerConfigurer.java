@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 public class CustomAuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
 	
 	@Autowired
-	@Qualifier("jpa")
+	@Qualifier("rest")
 	private AuthenticationProvider authenticationProvider;
 	
 	@Autowired

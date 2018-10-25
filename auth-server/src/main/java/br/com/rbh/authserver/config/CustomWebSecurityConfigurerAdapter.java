@@ -14,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
-	@Qualifier("jpa")
+	@Qualifier("rest")
 	private AuthenticationProvider authenticationProvider;
 	
 	@Bean
