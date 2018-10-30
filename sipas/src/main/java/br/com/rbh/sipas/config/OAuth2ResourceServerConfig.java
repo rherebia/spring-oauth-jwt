@@ -1,4 +1,4 @@
-package br.com.rbh.bse.config;
+package br.com.rbh.sipas.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,19 +17,6 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter 
 	@Override
     public void configure(ResourceServerSecurityConfigurer config) {
         config.tokenServices(tokenServices());
-    }
- 
-    @Bean
-    public TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
-    }
- 
-    @Bean
-    public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("123");
-        converter.setVerifierKey("123");
-        return converter;
     }
  
     @Primary

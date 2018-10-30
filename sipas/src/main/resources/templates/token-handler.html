@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<body>
+		<h4>Access Token:</h4>
+		<span id="accessToken" style="word-wrap: break-word"></span>
+	</body>
+	
+	<script type="text/javascript">
+		if (window.location.hash) {
+			var hash = window.location.hash.substring(1);
+			
+			var params = hash.split("&");
+			
+			document.getElementById("accessToken").innerHTML = params[0].split("=")[1];
+		}
+	</script>
+</html>

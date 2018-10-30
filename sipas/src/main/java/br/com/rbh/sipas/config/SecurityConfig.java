@@ -1,4 +1,4 @@
-package br.com.rbh.bse.config;
+package br.com.rbh.sipas.config;
 
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,10 +11,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-			.httpBasic().disable()
-			.authorizeRequests()
-	        	.antMatchers("/token-handler**", "/", "/login**").permitAll()
-	        	.anyRequest().authenticated();
+		http.authorizeRequests()
+	        .antMatchers("/token-handler**").permitAll()
+	        .anyRequest().authenticated()
+	        .and()
+	        .formLogin().permitAll();
 	}
 }
