@@ -1,15 +1,19 @@
 server:
-  port: 8084
+  port: 8082
   servlet:
     session:
       cookie:
-        name: UISESSION
+        name: UI2SESSION
   
 security:
   oauth2:
     client:
       client-id: sipas
       client-secret: 123
+      access-token-uri: https://localhost:8083/oauth/token
+      user-authorization-uri: https://localhost:8083/oauth/authorize
+      pre-established-redirect-uri: http://localhost:8082/token-handler
+      use-current-uri: false
     resource:
       token-info-uri: https://localhost:8083/oauth/check_token
       user-info-uri: https://localhost:8083/user/me

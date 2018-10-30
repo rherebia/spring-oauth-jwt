@@ -8,6 +8,6 @@ public class TokenHandlerController {
 
 	@RequestMapping("/token-handler")
 	public String tokenHandler() {
-		return "token-handler";
+		return "index";
 	}
 }
