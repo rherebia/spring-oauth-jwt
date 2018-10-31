@@ -1,0 +1,29 @@
+version: '3.1'
+
+services:
+  auth-server:
+    image: maven:slim
+    hostname: auth-server
+    entrypoint: './docker-entrypoint.sh'
+    volumes:
+      - "./auth-server:/tmp/auth-server"
+    ports:
+      - 8083:8083
+
+  bse:
+    image: maven:slim
+    hostname: bse
+    entrypoint: './docker-entrypoint.sh'
+    volumes:
+      - "./bse:/tmp/bse"
+    ports:
+      - 8081:8081
+
+  sipas:
+    image: maven:slim
+    hostname: sipas
+    entrypoint: './docker-entrypoint.sh'
+    volumes: 
+      - "./sipas:/tmp/sipas"
+    ports:
+      - 8082:8082
