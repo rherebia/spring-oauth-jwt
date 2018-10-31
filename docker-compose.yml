@@ -3,6 +3,7 @@ version: '3.1'
 services:
   auth-server:
     image: maven:slim
+    working_dir: /tmp/auth-server
     hostname: auth-server
     entrypoint: './docker-entrypoint.sh'
     volumes:
@@ -12,6 +13,7 @@ services:
 
   bse:
     image: maven:slim
+    working_dir: /tmp/bse
     hostname: bse
     entrypoint: './docker-entrypoint.sh'
     volumes:
@@ -21,6 +23,7 @@ services:
 
   sipas:
     image: maven:slim
+    working_dir: /tmp/sipas
     hostname: sipas
     entrypoint: './docker-entrypoint.sh'
     volumes: 
